@@ -2,6 +2,10 @@ package io.zipcoder.interfaces;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 public class TestClassroom {
@@ -9,19 +13,22 @@ public class TestClassroom {
     @Test
     public void testgetRoster(){
         // Given
-        Instructor instructor1 = new Instructor("Ram");
-        Instructor instructor2 = new Instructor("Ram");;
-        Student student1 = new Student("Gunjan");
-        Student student2 = new Student("Radha");;
-        Student[] students = new Student[2];
-        students[0]=student1;
-        students[1]=student2;
-        ClassRoom classR= new ClassRoom();
-        // When
-        System.out.println(classR.getRoster());
+         ClassRoom classR= new ClassRoom();
+        HashMap<Person,Person> studentInstructor= new HashMap<Person,Person>();
+        StringBuilder expected= new StringBuilder();
+        for (int i = 0; i < classR.getInstructors().size(); i++) {
+            studentInstructor.put(classR.getInstructors().get(i) , classR.getStudents().get(i));
+            //str.append(instructors.get(i)).append( students.get(i));
+        }
+        for (Map.Entry<Person,Person> entry : studentInstructor.entrySet()) {  // Iterate through hashmap
+            expected.append(entry.getKey().getName()).append(" ").append(entry.getValue().getName()).append("\n");
+        }
 
+        // When
+        String actual = classR.getRoster();
+       // System.out.println(actual);
         // Then
-        //assertEquals(true,instanceFlag) ;
+        assertEquals(expected.toString(),actual) ;
     }
 
 }
